@@ -20,7 +20,6 @@ cropper = Cropper('test.jpg')
 handler = Handler([{"url": "test.jpg", "crop": "true"}, {"url": "test2.jpg", "crop": "true"}])
 handler.start()
 
-
 @app.route("/")
 def hello():
     i = 0
