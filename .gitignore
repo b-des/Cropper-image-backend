@@ -1,7 +1,13 @@
 .idea
 __pycache__
+*.pyc
+venv/
+/env/
+instance/
+.pytest_cache/
+.coverage
 /uploads/
 /test.jpg
 /test2.jpg
 /test3.jpg
-/env/
+
