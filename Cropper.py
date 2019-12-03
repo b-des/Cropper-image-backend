@@ -35,9 +35,11 @@ class Cropper:
         :param color: border color
         :return: Cropper
         """
-        self._image = self._image.resize((self._image.width - thickness * 5, self._image.height - thickness * 5),
-                                         Image.ANTIALIAS)
-        self._image = ImageOps.expand(self._image, border=thickness, fill=color)
+        # self._image = self._image.resize((self._image.width - thickness * 2, self._image.height - thickness * 2),
+                                         #Image.ANTIALIAS)
+        border_increase_coefficient = self._image.height / (self._image.height - thickness)
+        print(border_increase_coefficient)
+        self._image = ImageOps.expand(self._image, border=int(thickness * border_increase_coefficient), fill=color)
         return self
 
     def crop_center(self, width, height):
