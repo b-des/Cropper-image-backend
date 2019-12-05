@@ -3,12 +3,12 @@ version: '3.5'
 services:
   backend:
     build: .
-    image: proversjx/cropper
     command: gunicorn --bind 0.0.0.0:6000 wsgi:app
-    container_name: python_backend_test1
+    container_name: proversjx/cropper
     volumes:
       - /home/dev50/uploads/:/usr/src/app/uploads/
+      - /home/dev50/Node-projects/cropper/dist/:/home/dev50/Node-projects/cropper/dist/
     ports:
-      - 4567:6000
+      - 5000:6000
     env_file:
       - ./.env.dev

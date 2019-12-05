@@ -1,45 +1,38 @@
-from flask import Flask, request, jsonify
-from PIL import Image, ImageOps
-from Cropper import Cropper
-from Handler import Handler
 import threading
 
+from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
+from Handler import Handler
+
 app = Flask(__name__)
-
-imageObject = Image.open("test.jpg")
-width, height = imageObject.size
-cropped = imageObject.crop((width / 2, height / 2, width, height))
-cropped.save('../test3.jpg')
-
-ImageOps.expand(cropped, border=30, fill='#FF0000').resize((int(width - width / 2), int(height - height / 2)),
-                                                           Image.ANTIALIAS).save('../test2.jpg')
-
-cropper = Cropper('test.jpg')
-# cropper.start_processing()
-
-handler = Handler([{"url": "test.jpg", "crop": "true"}, {"url": "test.jpg", "crop": "true"}])
-# handler.start()
+CORS(app)
 
 
-def process():
-    handler2 = Handler([{"url": "test.jpg", "crop": "true"}, {"url": "test.jpg", "crop": "true"}])
-    handler2.start()
+def process(data):
+    print(data)
+    handler = Handler(data).start()
 
 
 @app.route("/")
 def hello():
-    print("incoming request")
-    threading.Thread(target=process).start()
-    return "Hello World!"
+    return "Cropper backend working!"
 
 
 @app.route("/processing", methods=['POST'])
+@cross_origin()
 def index():
-    data = request.json
-    print(data)
-    handler1 = Handler(data)
-    handler1.start()
-    return jsonify(data)
+    #print(request.json)
+   # Handler(request.json).start()
+    threading.Thread(target=process, args=[request.json['data']]).start()
+    return jsonify(request.json)
+
+
+@app.route("/rotate", methods=['POST'])
+@cross_origin()
+def rotate():
+    print(request.json)
+
+    return jsonify(Handler(None).rotate(request.json))
 
 
 if __name__ == "__main__":
