@@ -12,14 +12,18 @@ class Handler:
     def __init__(self, images):
         self.images = images
 
-    def to_pixel(self, value) -> int:
-        return int(int(value) * 2.835 * 5)
+    def to_pixel(self, value, multiplier=5) -> int:
+        return int(int(value) * 2.835 * multiplier)
 
     def process(self, item):
         image_path = os.path.join(item['dest'][0], urlparse(item['url']).path)
 
-        dest_width = self.to_pixel(item['size']['width'])
-        dest_height = self.to_pixel(item['size']['height'])
+        if min(item['size']['width'], item['size']['height']) > 300:
+            multiplier = 2
+        else:
+            multiplier = 5
+        dest_width = self.to_pixel(item['size']['width'], multiplier)
+        dest_height = self.to_pixel(item['size']['height'], multiplier)
         with open(image_path, "rb") as f:
             filename, ext = os.path.splitext(os.path.basename(image_path))
 
