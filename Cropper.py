@@ -102,5 +102,5 @@ class Cropper:
         """
         if not os.path.exists(path):
             os.makedirs(path)
-        self._image.save(os.path.join(path, filename), "JPEG")
+        self._image.save(os.path.join(path, filename), "JPEG", dpi=(300, 300))
 
