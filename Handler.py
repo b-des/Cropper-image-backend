@@ -50,7 +50,7 @@ class Handler:
 
             # f"File name  is {filename} and extension is {ext}"
             salt = ''.join(random.choices(string.ascii_uppercase + string.digits, k=7))
-            file = f"{filename}-{salt}-{item['size']['width']}-{item['size']['height']}{ext}"
+            file = f"{filename}-{salt}-{item['size']['width']}-{item['size']['height']}.jpg"
             cropper.save(os.path.join(item['dest'][0], item['dest'][1]), file)
             del cropper
 

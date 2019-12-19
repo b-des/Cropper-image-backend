@@ -102,7 +102,5 @@ class Cropper:
         """
         if not os.path.exists(path):
             os.makedirs(path)
-        self._image.save(os.path.join(path, filename))
+        self._image.save(os.path.join(path, filename), "JPEG")
 
-    def start_processing(self):
-        self.crop_center(500, 500).fit_to_container(500, 500).add_border(10, "#acbdab").save('uploads', "testxx.jpg")
