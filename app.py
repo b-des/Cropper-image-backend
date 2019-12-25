@@ -9,7 +9,7 @@ CORS(app)
 
 
 def process(data):
-    print(data)
+   
     handler = Handler(data).start()
 
 
@@ -21,6 +21,7 @@ def hello():
 @app.route("/processing", methods=['POST'])
 @cross_origin()
 def index():
+    print(request.json)
     #print(request.json)
    # Handler(request.json).start()
     threading.Thread(target=process, args=[request.json['data']]).start()

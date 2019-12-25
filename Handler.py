@@ -16,9 +16,9 @@ class Handler:
         return int(int(value) * 2.835 * multiplier)
 
     def process(self, item):
-        image_path = os.path.join(item['dest'][0], urlparse(item['url']).path)
+        image_path = f"{item['dest'][0]}{os.path.normpath(urlparse(item['url']).path)}"
 
-        if min(item['size']['width'], item['size']['height']) > 300:
+        if min(int(item['size']['width']), int(item['size']['height'])) > 300:
             multiplier = 2
         else:
             multiplier = 5
@@ -29,6 +29,10 @@ class Handler:
 
             b = io.BytesIO(f.read())
             cropper = Cropper(b)
+
+            # if need to rotate
+            if int(item['rotate']) != 0:
+                cropper.rotate(int(item['rotate']), False) 
 
             # if need to crop image
             if item['crop'] and item['crop'] != "false":
@@ -81,14 +85,14 @@ class Handler:
 
     def start(self):
         for i, item in enumerate(self.images):
-            print(item)
-            if not item['original'] and item['original'] != "true":
+            
+            if item['original'] == False or item['original'] == "false":
                 print(f"Start working on {i + 1} item of {len(self.images)}")
                 # threading.Thread(target=self.process, args=[item]).start()
                 self.process(item)
 
     def rotate(self, item):
-        image_path = os.path.join(item['dest'][0], urlparse(item['url']).path)
+        image_path = f"{item['dest'][0]}{os.path.normpath(urlparse(item['url']).path)}"
         with open(image_path, "rb") as f:
             filename, ext = os.path.splitext(os.path.basename(image_path))
 

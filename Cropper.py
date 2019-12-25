@@ -82,7 +82,7 @@ class Cropper:
 
     def rotate(self, deg, thumbnail=True):
         if thumbnail:
-            self._image.thumbnail((300, 300), Image.ANTIALIAS)
+            self._image.thumbnail((500, 500), Image.ANTIALIAS)
         rotate = {
             90: Image.ROTATE_270,
             180: Image.ROTATE_180,
@@ -102,5 +102,5 @@ class Cropper:
         """
         if not os.path.exists(path):
             os.makedirs(path)
-        self._image.save(os.path.join(path, filename), "JPEG", dpi=(300, 300))
+        self._image.save(os.path.join(path, filename), "JPEG", dpi=(600, 600))
 
