@@ -6,8 +6,4 @@ venv/
 instance/
 .pytest_cache/
 .coverage
-/uploads/
-/test.jpg
-/test2.jpg
-/test3.jpg
-
+/data

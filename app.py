@@ -22,8 +22,6 @@ def hello():
 @cross_origin()
 def index():
     print(request.json)
-    #print(request.json)
-   # Handler(request.json).start()
     threading.Thread(target=process, args=[request.json['data']]).start()
     return jsonify(request.json)
 

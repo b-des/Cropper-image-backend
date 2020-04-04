@@ -1,9 +1,10 @@
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageFile
 import os
 
 
 class Cropper:
     def __init__(self, image):
+        ImageFile.LOAD_TRUNCATED_IMAGES = True
         self._image: Image = Image.open(image)
 
     def crop(self, x, y, width, height):
@@ -15,8 +16,11 @@ class Cropper:
         :param height: bottom corner
         :return: Cropper
         """
-        w = round(self._image.width / 100 * (width + x))
-        h = round(self._image.height / 100 * (height + y))
+        x, y, w, h = round(x), round(y), round(width), round(height)
+
+        #if (x == 0 and y == 0) and (w >= 100 and h >= 100):
+        w = round(self._image.width / 100 * (w + x))
+        h = round(self._image.height / 100 * (h + y))
         x = round(self._image.width / 100 * x)
         y = round(self._image.height / 100 * y)
         print((x, y, w, h))
@@ -74,7 +78,11 @@ class Cropper:
             self._image = self._image.resize((int(height / self._image.height * self._image.width), height),
                                              Image.ANTIALIAS)
 
-        blank_image = Image.new('RGB', (width, height), (255, 255, 255))
+        if width > self._image.width or height > self._image.height:
+            self._image = self._image.resize((width, height))
+
+
+        blank_image = Image.new('RGB', (width, height), (255, 12, 55))
         blank_image.paste(self._image, (int((blank_image.width - self._image.width) / 2),
                                         int((blank_image.height - self._image.height) / 2)))
         self._image = blank_image
@@ -102,5 +110,5 @@ class Cropper:
         """
         if not os.path.exists(path):
             os.makedirs(path)
-        self._image.save(os.path.join(path, filename), "JPEG", dpi=(600, 600))
+        self._image.convert("RGB").save(os.path.join(path, filename), "JPEG", dpi=(600, 600))
 

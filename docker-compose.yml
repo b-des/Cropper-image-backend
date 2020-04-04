@@ -6,9 +6,26 @@ services:
     command: gunicorn --bind 0.0.0.0:6000 wsgi:app
     restart: always
     volumes:
-      - /home/dev50/uploads/:/usr/src/app/uploads/
-      - /home/dev50/Node-projects/cropper/dist/:/home/dev50/Node-projects/cropper/dist/
+      - /var/www/demonstration/data/www/pechat.photo/:/var/www/demonstration/data/www/pechat.photo/
+      - /var/www/admin/data/www/xn--80aj0aafqej6a4c.xn--80asehdb/:/var/www/admin/data/www/xn--80aj0aafqej6a4c.xn--80asehdb/
+      - /var/www/antares/data/www/pixel-foto.ru/:/var/www/antares/data/www/pixel-foto.ru/
+      - /var/www/admin/data/www/gift-photo.com/:/var/www/admin/data/www/gift-photo.com/
+      - /var/www/urakrasnodar/data/www/photopechat23.ru/:/var/www/urakrasnodar/data/www/photopechat23.ru/
+      - /var/www/borovodessa/data/www/memory-moments.online/:/var/www/borovodessa/data/www/memory-moments.online/
+      - /var/www/digitalfotoua/data/www/digitalfoto.pp.ua/:/var/www/digitalfotoua/data/www/digitalfoto.pp.ua/
+      - /var/www/photomich/data/www/photo-mich.ru/:/var/www/photomich/data/www/photo-mich.ru/
+      - /var/www/pechatfotoonline/data/www/pechatfotoonline.ru/:/var/www/pechatfotoonline/data/www/pechatfotoonline.ru/
+      - /var/www/photolier/data/www/online.photolier.ru/:/var/www/photolier/data/www/online.photolier.ru/
+      - /var/www/fotocarte/data/www/evolvestudio.md/:/var/www/fotocarte/data/www/evolvestudio.md/
+      - /var/www/foto124/data/www/foto124.ru/:/var/www/foto124/data/www/foto124.ru/
+      - /var/www/casycomua/data/www/casy.com.ua/:/var/www/casycomua/data/www/casy.com.ua/
+      - /var/www/konigfoto/data/www/konigfoto.ru/:/var/www/konigfoto/data/www/konigfoto.ru/
+      - /var/www/bpilot/data/www/100foto.ru/:/var/www/bpilot/data/www/100foto.ru/
+      - /var/www/2kadra/data/www/2kadra-foto.ru/:/var/www/2kadra/data/www/2kadra-foto.ru/
+      - /var/www/suvenir38/data/www/xn--38-dlcmp3awds.xn--p1ai/:/var/www/suvenir38/data/www/xn--38-dlcmp3awds.xn--p1ai/
+      - /var/www/fotoprintperm/data/www/fotoprintperm.ru/:/var/www/fotoprintperm/data/www/fotoprintperm.ru/
+      - /var/www/printhouse64/data/www/printhouse64.com/:/var/www/printhouse64/data/www/printhouse64.com/
     ports:
-      - 6000-6005:6000
+      - 3350-3369:6000
     env_file:
       - ./.env.dev

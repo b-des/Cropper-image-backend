@@ -32,12 +32,12 @@ class Handler:
 
             # if need to rotate
             if int(item['rotate']) != 0:
-                cropper.rotate(int(item['rotate']), False) 
+                cropper.rotate(int(item['rotate']), False)
 
             # if need to crop image
             if item['crop'] and item['crop'] != "false":
                 # if width and height exist
-                if int(item['crop']['w']) != 0 and int(item['crop']['h']) != 0:
+                if int(item['crop']['w']) != 0 and int(item['crop']['h']) != 0 and int(item['crop']['x']) != 0 and int(item['crop']['y']) != 0:
                     crop = self.normalize_offsets(item['crop'])
                     cropper.crop(crop['x'], crop['y'], crop['w'], crop['h'])
                     cropper.resize(dest_width, dest_height)
@@ -46,6 +46,7 @@ class Handler:
                     cropper.crop_center(dest_width, dest_height)
             else:
                 # if no need to crop - fit image to container
+                print("Fit to container: {}".format(image_path))
                 cropper.fit_to_container(dest_width, dest_height)
 
             # if need draw border
@@ -85,7 +86,7 @@ class Handler:
 
     def start(self):
         for i, item in enumerate(self.images):
-            
+
             if item['original'] == False or item['original'] == "false":
                 print(f"Start working on {i + 1} item of {len(self.images)}")
                 # threading.Thread(target=self.process, args=[item]).start()
