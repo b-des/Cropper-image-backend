@@ -40,14 +40,14 @@ class Cropper:
     def add_border(self, thickness: int, color):
         """
         Add border to image
-        :param thickness: border width in pixels
+        :param thickness: border weight in pixels
         :param color: border color
         :return: Cropper
         """
-        self._image = self._image.resize((self._image.width - thickness * 2, self._image.height - thickness * 2), Image.ANTIALIAS)
-        border_increase_coefficient = self._image.height / (self._image.height - thickness)
-        border_multiplier = (self._image.width - (self._image.width - thickness)) / self._image.width * 100
-        border_multiplier = int(thickness / 100 * border_multiplier)
+        #self._image = self._image.resize((self._image.width - thickness * 2, self._image.height - thickness * 2), Image.ANTIALIAS)
+        #border_increase_coefficient = self._image.height / (self._image.height - thickness)
+        #border_multiplier = (self._image.width - (self._image.width - thickness)) / self._image.width * 100
+        #border_multiplier = int(thickness / 100 * border_multiplier)
         # print(border_multiplier)
         self._image = ImageOps.expand(self._image, border=thickness, fill=color)
         return self
@@ -77,12 +77,11 @@ class Cropper:
         elif self._image.height / self._image.width > height / width:
             self._image = self._image.resize((int(height / self._image.height * self._image.width), height),
                                              Image.ANTIALIAS)
+        else:
+            self._image = self._image.resize((width, height), Image.ANTIALIAS)
 
-        if width > self._image.width or height > self._image.height:
-            self._image = self._image.resize((width, height))
 
-
-        blank_image = Image.new('RGB', (width, height), (255, 12, 55))
+        blank_image = Image.new('RGB', (width, height), (255, 255, 255))
         blank_image.paste(self._image, (int((blank_image.width - self._image.width) / 2),
                                         int((blank_image.height - self._image.height) / 2)))
         self._image = blank_image

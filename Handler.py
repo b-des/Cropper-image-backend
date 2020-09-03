@@ -36,8 +36,8 @@ class Handler:
 
             # if need to crop image
             if item['crop'] and item['crop'] != "false":
-                # if width and height exist
-                if int(item['crop']['w']) != 0 and int(item['crop']['h']) != 0 and int(item['crop']['x']) != 0 and int(item['crop']['y']) != 0:
+                # if need to crop manual
+                if type(item['crop']) is dict:
                     crop = self.normalize_offsets(item['crop'])
                     cropper.crop(crop['x'], crop['y'], crop['w'], crop['h'])
                     cropper.resize(dest_width, dest_height)
@@ -107,3 +107,13 @@ class Handler:
             resp = {"filename": os.path.join(item['dest'][1], "tmp", file), "url": item['url'], "uid": item['uid'], "deg": item['deg']}
             print(resp)
             return {"filename": os.path.join(item['dest'][1], "tmp", file), "url": item['url'], "uid": item['uid'], "deg": item['deg']}
+
+    def make_preview(self, item):
+        image_path = f"{item['dest'][0]}{os.path.normpath(urlparse(item['url']).path)}"
+        with open(image_path, "rb") as f:
+            _, ext = os.path.splitext(os.path.basename(image_path))
+            file = f"{item['filename']}{ext}"
+            b = io.BytesIO(f.read())
+            cropper = Cropper(b)
+            cropper.rotate(0)
+            cropper.save(os.path.join(item['dest'][0], item['dest'][1]), file)

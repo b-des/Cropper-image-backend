@@ -9,7 +9,6 @@ CORS(app)
 
 
 def process(data):
-   
     handler = Handler(data).start()
 
 
@@ -29,9 +28,14 @@ def index():
 @app.route("/rotate", methods=['POST'])
 @cross_origin()
 def rotate():
-    print(request.json)
-
     return jsonify(Handler(None).rotate(request.json))
+
+
+@app.route("/make-preview", methods=['POST'])
+@cross_origin()
+def make_preview():
+    Handler(None).make_preview(request.json)
+    return jsonify(request.json)
 
 
 if __name__ == "__main__":
